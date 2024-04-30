@@ -1,20 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateBlogPostDto {
-  @ApiProperty({ required: true })
+export class UpdateBlogPostDto {
+  @ApiProperty()
   @IsNotEmpty()
   readonly title: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty()
   @IsNotEmpty()
   readonly description: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty()
   @IsNotEmpty()
   readonly article: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty()
   @IsNotEmpty()
   readonly tags: string[];
 }
