@@ -1,46 +1,21 @@
 import { User } from 'modules/users';
+import { BlogPost } from 'modules/blog/entity';
 import {
   Table,
   Column,
   Model,
   DataType,
-  BelongsTo,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 
 @Table
-export class BlogPost extends Model<BlogPost> {
-  @Column({
-    type: DataType.STRING,
-    unique: true,
-    allowNull: false,
-  })
-  title: string;
-
+export class BlogPostComment extends Model<BlogPostComment> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  description: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  article: string;
-
-  @Column({
-    type: DataType.ARRAY(DataType.STRING),
-    allowNull: false,
-  })
-  tags: string[];
-
-  @Column({
-    type: DataType.NUMBER,
-    allowNull: false,
-    defaultValue: 0,
-  })
-  viewCount: number;
+  text: string;
 
   @Column({
     type: DataType.DATE(),
@@ -53,6 +28,15 @@ export class BlogPost extends Model<BlogPost> {
     allowNull: true,
   })
   updatedAt: Date;
+
+  @ForeignKey(() => BlogPost)
+  @Column({
+    allowNull: false,
+  })
+  postId: number;
+
+  @BelongsTo(() => BlogPost)
+  post: BlogPost;
 
   @ForeignKey(() => User)
   @Column({

@@ -1,4 +1,4 @@
-import { BlogPost } from 'modules/blog/entity';
+import { BlogPost, BlogPostComment } from 'modules/blog/entity';
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 
 @Table
@@ -18,4 +18,7 @@ export class User extends Model<User> {
 
   @HasMany(() => BlogPost)
   posts: BlogPost[];
+
+  @HasMany(() => BlogPostComment)
+  comments: BlogPostComment[];
 }

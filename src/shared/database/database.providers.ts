@@ -3,7 +3,7 @@ import { databaseConfig } from './config';
 
 // Entities
 import { User } from 'modules/users/entity';
-import { BlogPost } from 'modules/blog/entity';
+import { BlogPost, BlogPostComment } from 'modules/blog/entity';
 
 export const databaseProviders = [
   {
@@ -19,7 +19,7 @@ export const databaseProviders = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      sequelize.addModels([User, BlogPost]);
+      sequelize.addModels([User, BlogPost, BlogPostComment]);
       await sequelize.sync();
       return sequelize;
     },

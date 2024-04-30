@@ -20,10 +20,13 @@ export class BlogPostService {
     private readonly blogPostRepository: typeof BlogPost,
   ) {}
 
-  async createPost(
-    user: User,
-    createBlogPostDto: CreateBlogPostDto,
-  ): Promise<BlogPost> {
+  async createPost({
+    createBlogPostDto,
+    user,
+  }: {
+    user: User;
+    createBlogPostDto: CreateBlogPostDto;
+  }): Promise<BlogPost> {
     return await this.blogPostRepository.create<BlogPost>({
       ...createBlogPostDto,
       userId: user.dataValues.id,
@@ -39,8 +42,6 @@ export class BlogPostService {
     page: number;
     limit: number;
   }) {
-    console.log({ xx: user.dataValues.id });
-
     const offset = (page - 1) * limit;
     const result = await this.blogPostRepository.findAndCountAll({
       offset,
@@ -48,6 +49,7 @@ export class BlogPostService {
       where: {
         userId: user.dataValues.id,
       },
+      include: [{ model: User, attributes: { exclude: ['password'] } }],
     });
 
     return {
@@ -57,11 +59,11 @@ export class BlogPostService {
   }
 
   async updatePost({
-    id,
+    postId,
     updateBlogPostDto,
     user,
   }: {
-    id: number;
+    postId: number;
     user: User;
     updateBlogPostDto: UpdateBlogPostDto;
   }) {
@@ -71,10 +73,10 @@ export class BlogPostService {
           ...updateBlogPostDto,
           updatedAt: new Date(),
         },
-        { where: { id, userId: user.dataValues.id }, returning: true },
+        { where: { id: postId, userId: user.dataValues.id }, returning: true },
       );
       if (count === 0) {
-        throw new NotFoundException(`Post with id ${id} not found`);
+        throw new NotFoundException(`Post with id ${postId} not found`);
       }
       return updatedPosts;
     } catch (error) {
@@ -96,13 +98,26 @@ export class BlogPostService {
     }
   }
 
-  async deletePost({ id, user }: { id: number; user: User }) {
+  async deletePost({ postId, user }: { postId: number; user: User }) {
     try {
       const deletedRows = await this.blogPostRepository.destroy({
-        where: { id, userId: user.dataValues.id },
+        where: { id: postId, userId: user.dataValues.id },
       });
       if (deletedRows === 0) {
-        throw new NotFoundException(`Post with id ${id} not found`);
+        throw new NotFoundException(`Post with id ${postId} not found`);
+      }
+    } catch (error) {
+      throw new BadRequestException(error.response);
+    }
+  }
+
+  async getPost({ postId }: { postId: number }) {
+    try {
+      const post = await this.blogPostRepository.findByPk(postId);
+      if (post) {
+        post.viewCount += 1;
+        await post.save();
+        return post;
       }
     } catch (error) {
       throw new BadRequestException(error.response);

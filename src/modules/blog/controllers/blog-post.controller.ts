@@ -29,7 +29,7 @@ export class BlogPostController {
     @Body() createBlogPostDto: CreateBlogPostDto,
     @CurrentUser() user: User,
   ) {
-    return this.blogPostService.createPost(user, createBlogPostDto);
+    return this.blogPostService.createPost({ user, createBlogPostDto });
   }
 
   @Get()
@@ -38,27 +38,38 @@ export class BlogPostController {
     @Query('limit') limit: number,
     @CurrentUser() user: User,
   ) {
-    return this.blogPostService.getPosts({ user, page, limit });
+    return this.blogPostService.getPosts({
+      user,
+      page: page,
+      limit: limit,
+    });
   }
 
-  @Put(':id')
+  @Put(':postId')
   updatePost(
-    @Param('id') id: number,
+    @Param('postId') postId: number,
     @Body() updateBlogPostDto: UpdateBlogPostDto,
     @CurrentUser() user: User,
   ) {
     return this.blogPostService.updatePost({
       user,
-      id: Number(id),
+      postId: postId,
       updateBlogPostDto,
     });
   }
 
-  @Delete(':id')
-  deletePost(@Param('id') id: number, @CurrentUser() user: User) {
+  @Delete(':postId')
+  deletePost(@Param('postId') postId: number, @CurrentUser() user: User) {
     return this.blogPostService.deletePost({
       user,
-      id: Number(id),
+      postId: postId,
+    });
+  }
+
+  @Get(':postId')
+  getPost(@Param('postId') postId: number) {
+    return this.blogPostService.getPost({
+      postId: postId,
     });
   }
 }
