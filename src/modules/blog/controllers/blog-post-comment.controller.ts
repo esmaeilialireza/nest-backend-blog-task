@@ -26,10 +26,10 @@ export class BlogPostCommentController {
   createComment(
     @Param('postId') postId: number,
     @Body() createBlogPostCommentDto: CreateBlogPostCommentDto,
-    @CurrentUser() user: User,
+    @CurrentUser() currentUser: User,
   ) {
     return this.blogPostService.createPostComment({
-      user,
+      currentUser,
       postId: postId,
       createBlogPostCommentDto,
     });

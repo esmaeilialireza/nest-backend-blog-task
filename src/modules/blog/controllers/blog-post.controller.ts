@@ -27,19 +27,14 @@ export class BlogPostController {
   @Post()
   createPost(
     @Body() createBlogPostDto: CreateBlogPostDto,
-    @CurrentUser() user: User,
+    @CurrentUser() currentUser: User,
   ) {
-    return this.blogPostService.createPost({ user, createBlogPostDto });
+    return this.blogPostService.createPost({ currentUser, createBlogPostDto });
   }
 
   @Get()
-  getPosts(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
-    @CurrentUser() user: User,
-  ) {
+  getPosts(@Query('page') page: number, @Query('limit') limit: number) {
     return this.blogPostService.getPosts({
-      user,
       page: page,
       limit: limit,
     });
@@ -49,10 +44,10 @@ export class BlogPostController {
   updatePost(
     @Param('postId') postId: number,
     @Body() updateBlogPostDto: UpdateBlogPostDto,
-    @CurrentUser() user: User,
+    @CurrentUser() currentUser: User,
   ) {
     return this.blogPostService.updatePost({
-      user,
+      currentUser,
       postId: postId,
       updateBlogPostDto,
     });
@@ -61,7 +56,7 @@ export class BlogPostController {
   @Delete(':postId')
   deletePost(@Param('postId') postId: number, @CurrentUser() user: User) {
     return this.blogPostService.deletePost({
-      user,
+      currentUser: user,
       postId: postId,
     });
   }

@@ -36,7 +36,7 @@ export class BlogPost extends Model<BlogPost> {
   tags: string[];
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
     defaultValue: 0,
   })
@@ -58,8 +58,8 @@ export class BlogPost extends Model<BlogPost> {
   @Column({
     allowNull: false,
   })
-  userId: number;
+  authorId: number;
 
   @BelongsTo(() => User)
-  user: User;
+  author: User;
 }

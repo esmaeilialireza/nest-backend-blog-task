@@ -42,8 +42,8 @@ export class BlogPostComment extends Model<BlogPostComment> {
   @Column({
     allowNull: false,
   })
-  userId: number;
+  commenterId: number;
 
   @BelongsTo(() => User)
-  user: User;
+  commenter: User;
 }

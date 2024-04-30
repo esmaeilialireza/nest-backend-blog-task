@@ -22,33 +22,22 @@ export class BlogPostService {
 
   async createPost({
     createBlogPostDto,
-    user,
+    currentUser,
   }: {
-    user: User;
+    currentUser: User;
     createBlogPostDto: CreateBlogPostDto;
   }): Promise<BlogPost> {
     return await this.blogPostRepository.create<BlogPost>({
       ...createBlogPostDto,
-      userId: user.dataValues.id,
+      authorId: currentUser.id,
     });
   }
 
-  async getPosts({
-    limit = 10,
-    page = 1,
-    user,
-  }: {
-    user: User;
-    page: number;
-    limit: number;
-  }) {
+  async getPosts({ limit = 10, page = 1 }: { page: number; limit: number }) {
     const offset = (page - 1) * limit;
     const result = await this.blogPostRepository.findAndCountAll({
       offset,
       limit,
-      where: {
-        userId: user.dataValues.id,
-      },
       include: [{ model: User, attributes: { exclude: ['password'] } }],
     });
 
@@ -61,10 +50,10 @@ export class BlogPostService {
   async updatePost({
     postId,
     updateBlogPostDto,
-    user,
+    currentUser,
   }: {
     postId: number;
-    user: User;
+    currentUser: User;
     updateBlogPostDto: UpdateBlogPostDto;
   }) {
     try {
@@ -73,7 +62,7 @@ export class BlogPostService {
           ...updateBlogPostDto,
           updatedAt: new Date(),
         },
-        { where: { id: postId, userId: user.dataValues.id }, returning: true },
+        { where: { id: postId, authorId: currentUser.id }, returning: true },
       );
       if (count === 0) {
         throw new NotFoundException(`Post with id ${postId} not found`);
@@ -98,10 +87,16 @@ export class BlogPostService {
     }
   }
 
-  async deletePost({ postId, user }: { postId: number; user: User }) {
+  async deletePost({
+    postId,
+    currentUser,
+  }: {
+    postId: number;
+    currentUser: User;
+  }) {
     try {
       const deletedRows = await this.blogPostRepository.destroy({
-        where: { id: postId, userId: user.dataValues.id },
+        where: { id: postId, authorId: currentUser.id },
       });
       if (deletedRows === 0) {
         throw new NotFoundException(`Post with id ${postId} not found`);
