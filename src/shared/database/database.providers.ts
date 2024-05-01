@@ -2,8 +2,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { databaseConfig } from './config';
 
 // Entities
-import { User } from 'modules/users/entity';
-import { BlogPost, BlogPostComment } from 'modules/blog/entity';
+import { User } from '@app/modules/users/entity';
+import { BlogPost, BlogPostComment } from '@app/modules/blog/entity';
 
 export const databaseProviders = [
   {
@@ -18,7 +18,7 @@ export const databaseProviders = [
         default:
           config = databaseConfig.development;
       }
-      const sequelize = new Sequelize(config);
+      const sequelize = new Sequelize({ ...config, logging: false });
       sequelize.addModels([User, BlogPost, BlogPostComment]);
       await sequelize.sync();
       return sequelize;

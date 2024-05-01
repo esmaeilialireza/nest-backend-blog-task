@@ -8,7 +8,7 @@ import {
   MailerService,
 } from './services';
 import { BlogPostCommentController, BlogPostController } from './controllers';
-import { MAIL_QUEUE } from 'shared';
+import { MAIL_QUEUE } from '@app/shared';
 
 @Module({
   imports: [

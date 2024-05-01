@@ -6,11 +6,11 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 
-import { BLOG_POST_REPOSITORY } from 'shared';
+import { BLOG_POST_REPOSITORY } from '@app/shared';
 
 import { CreateBlogPostDto, UpdateBlogPostDto } from '../dto';
 import { BlogPost } from '../entity';
-import { User } from 'modules/users';
+import { User } from '@app/modules/users';
 import { ValidationError } from 'sequelize';
 
 @Injectable()
@@ -27,10 +27,17 @@ export class BlogPostService {
     currentUser: User;
     createBlogPostDto: CreateBlogPostDto;
   }): Promise<BlogPost> {
-    return await this.blogPostRepository.create<BlogPost>({
-      ...createBlogPostDto,
-      authorId: currentUser.id,
-    });
+    try {
+      return await this.blogPostRepository.create<BlogPost>({
+        ...createBlogPostDto,
+        viewCount: 0,
+        authorId: currentUser.id,
+      });
+    } catch (error) {
+      throw new BadRequestException(
+        error.errors.map((err) => ({ message: err.message })),
+      );
+    }
   }
 
   async getPosts({ limit = 10, page = 1 }: { page: number; limit: number }) {

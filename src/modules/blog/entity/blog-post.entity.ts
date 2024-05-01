@@ -1,4 +1,4 @@
-import { User } from 'modules/users';
+import { User } from '@app/modules/users';
 import {
   Table,
   Column,

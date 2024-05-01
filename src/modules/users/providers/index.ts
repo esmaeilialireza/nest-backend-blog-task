@@ -1,4 +1,4 @@
-import { USER_REPOSITORY } from 'shared';
+import { USER_REPOSITORY } from '@app/shared';
 
 import { User } from '../entity';
 

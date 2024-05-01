@@ -1,6 +1,6 @@
 import { Processor, Process } from '@nestjs/bull';
 import { Job } from 'bull';
-import { MAIL_JOB, MAIL_QUEUE } from 'shared';
+import { MAIL_JOB, MAIL_QUEUE } from '@app/shared';
 
 @Processor(MAIL_QUEUE)
 export class MailerService {

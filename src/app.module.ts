@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AuthModule, BlogPostModule, UsersModule } from 'modules';
-import { DatabaseModule } from 'shared';
+import { AuthModule, BlogPostModule, UsersModule } from '@app/modules';
+import { DatabaseModule } from '@app/shared';
 
 @Module({
   imports: [

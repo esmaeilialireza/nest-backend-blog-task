@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 
 import { LoginDto, SignupDto } from '../dto';
-import { UsersService } from 'modules/users';
+import { UsersService } from '@app/modules/users';
 
 @Injectable()
 export class AuthService {

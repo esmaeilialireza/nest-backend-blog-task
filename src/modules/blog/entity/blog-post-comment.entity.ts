@@ -1,5 +1,5 @@
-import { User } from 'modules/users';
-import { BlogPost } from 'modules/blog/entity';
+import { User } from '@app/modules/users';
+import { BlogPost } from '@app/modules/blog/entity';
 import {
   Table,
   Column,

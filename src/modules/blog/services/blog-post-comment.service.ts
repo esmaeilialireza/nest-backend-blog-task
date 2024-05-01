@@ -7,11 +7,11 @@ import {
   BLOG_POST_REPOSITORY,
   MAIL_JOB,
   MAIL_QUEUE,
-} from 'shared';
+} from '@app/shared';
 
 import { CreateBlogPostCommentDto } from '../dto';
 import { BlogPost, BlogPostComment } from '../entity';
-import { User } from 'modules/users';
+import { User } from '@app/modules/users';
 
 @Injectable()
 export class BlogPostCommentService {

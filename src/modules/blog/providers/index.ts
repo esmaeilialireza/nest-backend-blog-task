@@ -1,4 +1,7 @@
-import { BLOG_POST_COMMENT_REPOSITORY, BLOG_POST_REPOSITORY } from 'shared';
+import {
+  BLOG_POST_COMMENT_REPOSITORY,
+  BLOG_POST_REPOSITORY,
+} from '@app/shared';
 
 import { BlogPost, BlogPostComment } from '../entity';
 

@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from 'modules/auth';
-import { User } from 'modules/users';
-import { CurrentUser } from 'shared';
+import { JwtAuthGuard } from '@app/modules/auth';
+import { User } from '@app/modules/users';
+import { CurrentUser } from '@app/shared';
 
 import { CreateBlogPostCommentDto } from '../dto';
 import { BlogPostCommentService } from '../services';

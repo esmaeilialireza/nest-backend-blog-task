@@ -1,4 +1,4 @@
-import { BlogPost, BlogPostComment } from 'modules/blog/entity';
+import { BlogPost, BlogPostComment } from '@app/modules/blog/entity';
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 
 @Table
